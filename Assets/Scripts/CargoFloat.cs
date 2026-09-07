@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class CargoFloat : MonoBehaviour
 {
-    private Vector3 startPosition;
-
     [SerializeField]
     private float moveAmplitude = 0.5f;
 
@@ -13,21 +11,37 @@ public class CargoFloat : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 20f;
 
-    void Start()
+    private CargoDrag cargoDrag;
+
+    private Vector3 floatOffset;
+
+    private void Start()
     {
-        startPosition = transform.position;
+        cargoDrag = GetComponent<CargoDrag>();
+
+        floatOffset = new Vector3(
+            Random.Range(0f, 100f),
+            0f,
+            Random.Range(0f, 100f)
+        );
     }
 
-    void Update()
+    private void Update()
     {
-        float offsetX = Mathf.Sin(Time.time * moveSpeed) * moveAmplitude;
-        float offsetZ = Mathf.Cos(Time.time * moveSpeed * 0.8f) * moveAmplitude;
+        if (cargoDrag != null && cargoDrag.IsDragging)
+            return;
 
-        transform.position = new Vector3(
-            startPosition.x + offsetX,
-            transform.position.y,
-            startPosition.z + offsetZ
-        );
+        float x =
+            Mathf.Sin(Time.time * moveSpeed + floatOffset.x)
+            * moveAmplitude
+            * Time.deltaTime;
+
+        float z =
+            Mathf.Cos(Time.time * moveSpeed + floatOffset.z)
+            * moveAmplitude
+            * Time.deltaTime;
+
+        transform.position += new Vector3(x, 0, z);
 
         transform.Rotate(
             Vector3.up,

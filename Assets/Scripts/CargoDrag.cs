@@ -5,22 +5,39 @@ public class CargoDrag : MonoBehaviour
     private Camera mainCamera;
     private bool isDragging;
 
-    void Start()
+    [SerializeField]
+    private float minX = -15f;
+
+    [SerializeField]
+    private float maxX = 15f;
+
+    [SerializeField]
+    private float minZ = -13f;
+
+    [SerializeField]
+    private float maxZ = 13f;
+
+    public bool IsDragging
+    {
+        get { return isDragging; }
+    }
+
+    private void Start()
     {
         mainCamera = Camera.main;
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         isDragging = true;
     }
 
-    void OnMouseUp()
+    private void OnMouseUp()
     {
         isDragging = false;
     }
 
-    void Update()
+    private void Update()
     {
         if (!isDragging)
             return;
@@ -33,10 +50,13 @@ public class CargoDrag : MonoBehaviour
         {
             Vector3 point = ray.GetPoint(distance);
 
+            float clampedX = Mathf.Clamp(point.x, minX, maxX);
+            float clampedZ = Mathf.Clamp(point.z, minZ, maxZ);
+
             transform.position = new Vector3(
-                point.x,
+                clampedX,
                 transform.position.y,
-                point.z
+                clampedZ
             );
         }
     }
