@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - Container
+  - Energy
+  - Bio
+  - Tech
+  - EnergyContainer
+  - BioContainer
+  - TechContainer
   layers:
   - Default
   - TransparentFX

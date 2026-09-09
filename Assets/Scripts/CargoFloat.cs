@@ -3,17 +3,16 @@ using UnityEngine;
 public class CargoFloat : MonoBehaviour
 {
     [SerializeField]
-    private float moveAmplitude = 0.5f;
+    private float moveAmplitude = 0.3f;
 
     [SerializeField]
     private float moveSpeed = 0.5f;
 
-    [SerializeField]
-    private float rotationSpeed = 20f;
-
     private CargoDrag cargoDrag;
 
     private Vector3 floatOffset;
+    private Vector3 rotationAxis;
+    private float rotationSpeed;
 
     private void Start()
     {
@@ -24,6 +23,10 @@ public class CargoFloat : MonoBehaviour
             0f,
             Random.Range(0f, 100f)
         );
+
+        rotationAxis = Random.onUnitSphere;
+
+        rotationSpeed = Random.Range(10f, 35f);
     }
 
     private void Update()
@@ -44,7 +47,7 @@ public class CargoFloat : MonoBehaviour
         transform.position += new Vector3(x, 0, z);
 
         transform.Rotate(
-            Vector3.up,
+            rotationAxis,
             rotationSpeed * Time.deltaTime,
             Space.World
         );

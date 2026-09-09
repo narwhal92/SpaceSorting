@@ -4,11 +4,23 @@ public class CargoCollector : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Container"))
-            return;
+        bool correct =
+            (CompareTag("Energy") && other.CompareTag("EnergyContainer")) ||
+            (CompareTag("Bio") && other.CompareTag("BioContainer")) ||
+            (CompareTag("Tech") && other.CompareTag("TechContainer"));
 
-        Debug.Log("Cargo delivered");
+        if (correct)
+        {
+            Debug.Log("Correct!");
 
-        Destroy(gameObject);
+            LevelManager.Instance.CargoDelivered();
+
+            Destroy(gameObject);
+        }
+        
+        else
+        {
+            Debug.Log("Wrong container");
+        }
     }
 }
