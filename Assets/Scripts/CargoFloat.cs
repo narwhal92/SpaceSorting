@@ -2,48 +2,52 @@ using UnityEngine;
 
 public class CargoFloat : MonoBehaviour
 {
-    [SerializeField]
-    private float horizontalAmplitude = 0.4f;
+    [Header("Movement")]
+    [SerializeField] private float minSpeed = 0.5f;
+    [SerializeField] private float maxSpeed = 1.5f;
 
-    [SerializeField]
-    private float moveSpeed = 0.5f;
+    [SerializeField] private float directionChangeInterval = 3f;
+    [SerializeField] private float directionChangeStrength = 0.3f;
+
+    [Header("Room Bounds")]
+    [SerializeField] private float minX = -14f;
+    [SerializeField] private float maxX = 14f;
+
+    [SerializeField] private float minY = 0.5f;
+    [SerializeField] private float maxY = 4f;
+
+    [SerializeField] private float minZ = -12f;
+    [SerializeField] private float maxZ = 12f;
+
+    [Header("Rotation")]
+    [SerializeField] private float minRotationSpeed = 10f;
+    [SerializeField] private float maxRotationSpeed = 40f;
 
     private CargoDrag cargoDrag;
 
-    private Vector3 startPosition;
-    private Vector3 floatOffset;
+    private Vector3 velocity;
 
     private Vector3 rotationAxis;
     private float rotationSpeed;
 
-    private float personalSpeedMultiplier;
-    private float personalVerticalAmplitude;
+    private float nextDirectionChangeTime;
 
     private void Start()
     {
         cargoDrag = GetComponent<CargoDrag>();
 
-        startPosition = transform.position;
-
-        floatOffset = new Vector3(
-            Random.Range(0f, 100f),
-            Random.Range(0f, 100f),
-            Random.Range(0f, 100f)
-        );
+        velocity = Random.onUnitSphere *
+                   Random.Range(minSpeed, maxSpeed);
 
         rotationAxis = Random.onUnitSphere;
 
-        rotationSpeed = Random.Range(10f, 35f);
+        rotationSpeed = Random.Range(
+            minRotationSpeed,
+            maxRotationSpeed
+        );
 
-        personalSpeedMultiplier =
-            Random.Range(0.8f, 1.3f);
-
-        // Каждый груз получает свою высоту плавания
-        personalVerticalAmplitude =
-            Random.Range(0.8f, 2.2f);
-
-        // Немного разбрасываем грузы по высоте уже при старте
-        startPosition.y += Random.Range(-0.5f, 1.5f);
+        nextDirectionChangeTime =
+            Time.time + directionChangeInterval;
     }
 
     private void Update()
@@ -51,33 +55,67 @@ public class CargoFloat : MonoBehaviour
         if (cargoDrag != null && cargoDrag.IsDragging)
             return;
 
-        float time =
-            Time.time *
-            moveSpeed *
-            personalSpeedMultiplier;
+        MoveCargo();
+        RotateCargo();
+        RandomlyAdjustDirection();
+    }
 
-        float x =
-            Mathf.Sin(time + floatOffset.x)
-            * horizontalAmplitude;
+    private void MoveCargo()
+    {
+        transform.position += velocity * Time.deltaTime;
 
-        float z =
-            Mathf.Cos(time + floatOffset.z)
-            * horizontalAmplitude;
+        Vector3 pos = transform.position;
 
-        float y =
-            Mathf.Sin(time * 0.7f + floatOffset.y)
-            * personalVerticalAmplitude;
+        if (pos.x < minX || pos.x > maxX)
+        {
+            velocity.x *= -1f;
+            pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        }
 
-        transform.position = new Vector3(
-            startPosition.x + x,
-            startPosition.y + y,
-            startPosition.z + z
-        );
+        if (pos.y < minY || pos.y > maxY)
+        {
+            velocity.y *= -1f;
+            pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        }
 
+        if (pos.z < minZ || pos.z > maxZ)
+        {
+            velocity.z *= -1f;
+            pos.z = Mathf.Clamp(pos.z, minZ, maxZ);
+        }
+
+        transform.position = pos;
+    }
+
+    private void RotateCargo()
+    {
         transform.Rotate(
             rotationAxis,
             rotationSpeed * Time.deltaTime,
             Space.World
         );
+    }
+
+    private void RandomlyAdjustDirection()
+    {
+        if (Time.time < nextDirectionChangeTime)
+            return;
+
+        velocity += Random.onUnitSphere *
+                    directionChangeStrength;
+
+        velocity = velocity.normalized *
+                   Mathf.Clamp(
+                       velocity.magnitude,
+                       minSpeed,
+                       maxSpeed
+                   );
+
+        nextDirectionChangeTime =
+            Time.time +
+            Random.Range(
+                directionChangeInterval * 0.5f,
+                directionChangeInterval * 1.5f
+            );
     }
 }
