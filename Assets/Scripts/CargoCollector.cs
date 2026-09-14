@@ -15,6 +15,8 @@ public class CargoCollector : MonoBehaviour
 
             LevelManager.Instance.CargoDelivered();
 
+            OrderManager.Instance.CargoDelivered(tag);
+
             Destroy(gameObject);
         }
         
