@@ -8,8 +8,13 @@ public class OrderManager : MonoBehaviour
     [SerializeField]
     private TMP_Text orderText;
 
-    private int energyRequired = 2;
-    private int bioRequired = 1;
+    [SerializeField]
+    private int totalOrders = 3;
+
+    private int currentOrder = 1;
+
+    private int energyRequired;
+    private int bioRequired;
 
     private int energyDelivered;
     private int bioDelivered;
@@ -21,7 +26,7 @@ public class OrderManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateUI();
+        GenerateOrder();
     }
 
     public void CargoDelivered(string cargoTag)
@@ -41,10 +46,22 @@ public class OrderManager : MonoBehaviour
         CheckOrderComplete();
     }
 
+    private void GenerateOrder()
+    {
+        energyRequired = Random.Range(1, 4);
+        bioRequired = Random.Range(1, 3);
+
+        energyDelivered = 0;
+        bioDelivered = 0;
+
+        UpdateUI();
+    }
+
     private void UpdateUI()
     {
         orderText.text =
-            "ORDER\n\n" +
+            "ORDER " + currentOrder + "/" + totalOrders +
+            "\n\n" +
             "Energy: " +
             energyDelivered +
             "/" +
@@ -63,8 +80,16 @@ public class OrderManager : MonoBehaviour
             bioDelivered >= bioRequired
         )
         {
-            orderText.text =
-                "ORDER COMPLETE!";
+            if (currentOrder >= totalOrders)
+            {
+                orderText.text =
+                    "LEVEL COMPLETE!";
+            }
+            else
+            {
+                currentOrder++;
+                GenerateOrder();
+            }
         }
     }
 }
