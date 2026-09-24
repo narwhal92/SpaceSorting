@@ -10,14 +10,14 @@ public class CargoSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     [SerializeField] private int cargoCount = 12;
 
-    [SerializeField] private float minX = -8f;
-    [SerializeField] private float maxX = 8f;
+    [SerializeField] private float minX = -7f;
+    [SerializeField] private float maxX = 7f;
 
     [SerializeField] private float minY = 1f;
     [SerializeField] private float maxY = 3f;
 
-    [SerializeField] private float minZ = -5f;
-    [SerializeField] private float maxZ = 5f;
+    [SerializeField] private float minZ = -10f;
+    [SerializeField] private float maxZ = 10f;
 
     private void Start()
     {

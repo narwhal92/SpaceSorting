@@ -268,6 +268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 215950710}
+  - component: {fileID: 215950711}
   m_Layer: 0
   m_Name: Room
   m_TagString: Untagged
@@ -295,6 +296,36 @@ Transform:
   - {fileID: 251936395}
   m_Father: {fileID: 742499916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &215950711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215950709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b05a8afb514cc4d8c1e027d7261007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AdaptiveBox
+  cam: {fileID: 330585545}
+  floor: {fileID: 1734674972}
+  wallTop: {fileID: 1787912162}
+  wallBottom: {fileID: 251936395}
+  wallLeft: {fileID: 1335643103}
+  wallRight: {fileID: 2120198914}
+  containersRow: {fileID: 0}
+  spawnHatch: {fileID: 0}
+  containersInset: 2
+  hatchInset: 1
+  width: 16
+  wallThickness: 1.5
+  wallHeight: 15
+  sidePadding: 1.5
+  topMargin: 3.5
+  bottomMargin: 3.5
+  minDepth: 16
+  maxDepth: 40
 --- !u!1 &251936394
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +640,7 @@ Camera:
   far clip plane: 300
   field of view: 75
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 18
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1565,7 +1596,7 @@ Transform:
   m_GameObject: {fileID: 1738369837}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.73517, y: 0.1, z: -2.5608}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1787,7 +1818,7 @@ Transform:
   m_GameObject: {fileID: 1896546413}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.10834, y: 0.1, z: -0.61658}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

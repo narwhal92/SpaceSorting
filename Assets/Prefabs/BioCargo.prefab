@@ -140,10 +140,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Constraints: 4
+  m_CollisionDetection: 2
 --- !u!114 &7177614440541143918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365d38083017956479c8cf6630c14864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CargoDrag
+  dragHeight: 1.2
   minX: -15
   maxX: 15
   minZ: -13

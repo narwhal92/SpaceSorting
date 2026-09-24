@@ -6,6 +6,9 @@ public class CargoDrag : MonoBehaviour
     private bool isDragging;
 
     [SerializeField]
+    private float dragHeight = 1.2f;
+
+    [SerializeField]
     private float minX = -15f;
 
     [SerializeField]
@@ -30,6 +33,10 @@ public class CargoDrag : MonoBehaviour
     private void OnMouseDown()
     {
         isDragging = true;
+
+        Vector3 pos = transform.position;
+        pos.y = dragHeight;
+        transform.position = pos;
     }
 
     private void OnMouseUp()
@@ -55,7 +62,7 @@ public class CargoDrag : MonoBehaviour
 
             transform.position = new Vector3(
                 clampedX,
-                transform.position.y,
+                dragHeight,
                 clampedZ
             );
         }
