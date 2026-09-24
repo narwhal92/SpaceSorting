@@ -12,14 +12,16 @@ public class AdaptiveBox : MonoBehaviour
     public Transform wallLeft;
     public Transform wallRight;
 
-    [Header("Привязка к краям поля (необязательно)")]
-    public Transform containersRow;    // ряд из 3 контейнеров
-    public Transform spawnHatch;       // люк, откуда выплывают грузы
-    public float containersInset = 2f; // насколько контейнеры отстоят от нижнего края
-    public float hatchInset = 1f;      // насколько люк отстоит от верхнего края
+    [Header("Люк и контейнеры")]
+    public Transform spawnHatch;        // люк сверху
+    public float hatchInset = 1f;       // отступ люка от верхнего края
+    public Transform[] containers;      // контейнеры слева направо
+    public float containersInset = 2f;  // отступ контейнеров от нижнего края
+    public float containerGap = 0.5f;   // зазор между контейнерами
 
     [Header("Размеры (в юнитах)")]
     public float width = 16f;
+    public float referenceWidth = 16f;  // при этой ширине размеры грузов и контейнеров "как нарисованы"
     public float wallThickness = 1.5f;
     public float wallHeight = 3f;
     public float sidePadding = 1.5f;
@@ -32,7 +34,22 @@ public class AdaptiveBox : MonoBehaviour
 
     public float Depth { get; private set; }
 
+    // Во сколько раз масштабировать грузы, контейнеры и скорости
+    public float Scale
+    {
+        get { return referenceWidth > 0f ? width / referenceWidth : 1f; }
+    }
+
     int lastW, lastH;
+    Vector3[] containerBaseScale;
+
+    void Awake()
+    {
+        CaptureContainerScales();
+        lastW = Screen.width;
+        lastH = Screen.height;
+        Apply();
+    }
 
     void LateUpdate()
     {
@@ -42,6 +59,14 @@ public class AdaptiveBox : MonoBehaviour
             lastH = Screen.height;
             Apply();
         }
+    }
+
+    void CaptureContainerScales()
+    {
+        if (containers == null) return;
+        containerBaseScale = new Vector3[containers.Length];
+        for (int i = 0; i < containers.Length; i++)
+            if (containers[i]) containerBaseScale[i] = containers[i].localScale;
     }
 
     void Apply()
@@ -74,7 +99,6 @@ public class AdaptiveBox : MonoBehaviour
         cam.orthographic = true;
         cam.orthographicSize = size;
 
-        // Камера смотрит в точку на полу с учётом наклона и отступов
         float vView = wallShift / 2f + (topMargin - bottomMargin) / 2f;
         Vector3 target = transform.position + new Vector3(0f, 0f, vView / sinT);
         cam.transform.position = target - f * 50f;
@@ -87,9 +111,49 @@ public class AdaptiveBox : MonoBehaviour
         Place(wallLeft,  -width / 2f + t / 2f, 0f,                  t,     depth - 2f * t);
         Place(wallRight,  width / 2f - t / 2f, 0f,                  t,     depth - 2f * t);
 
-        // Контейнеры и люк привязываем к краям поля
-        if (containersRow) SetZ(containersRow, -depth / 2f + containersInset);
-        if (spawnHatch)    SetZ(spawnHatch,     depth / 2f - hatchInset);
+        // Люк
+        if (spawnHatch) SetZ(spawnHatch, depth / 2f - hatchInset);
+
+        // Контейнеры
+        LayoutContainers(depth);
+    }
+
+    void LayoutContainers(float depth)
+    {
+        if (containers == null || containers.Length == 0) return;
+
+        int n = containers.Length;
+        if (containerBaseScale == null || containerBaseScale.Length != n)
+            CaptureContainerScales();
+
+        float inner = width - 2f * wallThickness;
+        float slot = (inner - containerGap * (n - 1)) / n;
+        float z = -depth / 2f + containersInset;
+
+        for (int i = 0; i < n; i++)
+        {
+            Transform c = containers[i];
+            if (!c) continue;
+
+            float x = -inner / 2f + slot / 2f + i * (slot + containerGap);
+            Vector3 p = c.localPosition;
+            p.x = x;
+            p.z = z;
+            c.localPosition = p;
+
+            c.localScale = containerBaseScale[i] * Scale;
+        }
+    }
+
+    // Случайная точка внутри поля (для появления грузов)
+    public Vector3 RandomPoint(float margin, float y)
+    {
+        float hx = width / 2f - wallThickness - margin;
+        float hz = Depth / 2f - wallThickness - margin;
+        Vector3 local = new Vector3(Random.Range(-hx, hx), 0f, Random.Range(-hz, hz));
+        Vector3 p = transform.TransformPoint(local);
+        p.y = y;
+        return p;
     }
 
     void Place(Transform tr, float x, float z, float sx, float sz)
