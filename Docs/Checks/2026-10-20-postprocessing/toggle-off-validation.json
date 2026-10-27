@@ -1,0 +1,11 @@
+{
+  "volumeEnabled": false,
+  "bloom": false,
+  "tone": false,
+  "color": false,
+  "vignette": false,
+  "motion": false,
+  "dof": false,
+  "grain": false,
+  "chromatic": false
+}

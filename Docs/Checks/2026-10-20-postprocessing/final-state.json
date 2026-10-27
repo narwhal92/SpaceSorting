@@ -1,0 +1,16 @@
+{
+  "scene": "Assets/Scenes/ArtSample.unity",
+  "globalVolumeCount": 1,
+  "profile": "Assets/Art/Contrast/BrightBayProfile.asset",
+  "position": "(2.108340, 45.415390, -21.048030)",
+  "rotation": "(65.000000, 0.000000, 0.000000)",
+  "orthographicSize": 24.0,
+  "aspect": 0.5625,
+  "exposure": 0.55,
+  "saturation": 8.0,
+  "contrast": 3.0,
+  "bloom": 0.12,
+  "tone": "Neutral",
+  "vignette": false,
+  "lights": 6
+}

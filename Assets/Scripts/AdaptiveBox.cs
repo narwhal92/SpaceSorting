@@ -136,10 +136,9 @@ public class AdaptiveBox : MonoBehaviour
             if (!c) continue;
 
             float x = -inner / 2f + slot / 2f + i * (slot + containerGap);
-            Vector3 p = c.localPosition;
-            p.x = x;
-            p.z = z;
-            c.localPosition = p;
+            Vector3 p = transform.TransformPoint(new Vector3(x, 0f, z));
+            p.y = c.position.y;
+            c.position = p;
 
             c.localScale = containerBaseScale[i] * Scale;
         }

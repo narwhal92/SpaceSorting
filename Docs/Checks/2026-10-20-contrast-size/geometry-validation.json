@@ -1,0 +1,52 @@
+{
+  "initial": 0,
+  "total": 12,
+  "actual": 12,
+  "categories": [
+    "Tech",
+    "Energy",
+    "Bio"
+  ],
+  "wallsClear": true,
+  "intakesClear": true,
+  "minPair": 4.273083,
+  "highIntakeSpawnRejected": true,
+  "holes": [
+    {
+      "x": -0.375,
+      "opaqueTriangles": 0,
+      "floorColliderSolid": true
+    },
+    {
+      "x": 0.375,
+      "opaqueTriangles": 0,
+      "floorColliderSolid": true
+    }
+  ],
+  "fit": [
+    {
+      "cat": "Energy",
+      "maximumDiameterIncludingJelly": 2.03242564,
+      "openingWidth": 3.84,
+      "openingHeight": 3.0,
+      "clearsOpening": true
+    },
+    {
+      "cat": "Bio",
+      "maximumDiameterIncludingJelly": 2.104851,
+      "openingWidth": 3.84,
+      "openingHeight": 3.0,
+      "clearsOpening": true
+    },
+    {
+      "cat": "Tech",
+      "maximumDiameterIncludingJelly": 2.69118428,
+      "openingWidth": 3.84,
+      "openingHeight": 3.0,
+      "clearsOpening": true
+    }
+  ],
+  "colliders": 20,
+  "lights": 6,
+  "shadowLights": 1
+}

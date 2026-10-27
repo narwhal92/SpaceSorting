@@ -55,6 +55,8 @@ public class CargoFloat : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (cargoDrag != null && cargoDrag.IsDragging)
+            return;
         // Страховка: что бы ни двигало груз (в том числе палец),
         // он остаётся внутри коробки и на своей высоте.
         if (box == null || box.Depth <= 0f)

@@ -1,0 +1,21 @@
+initial=0/12; actual=12
+wrongSurvives=True
+freeReleaseRejected=True
+started=Energy collecting=True colliderOff=True
+started=Bio collecting=True colliderOff=True
+started=Energy collecting=True colliderOff=True
+started=Bio collecting=True colliderOff=True
+started=Bio collecting=True colliderOff=True
+started=Energy collecting=True colliderOff=True
+started=Bio collecting=True colliderOff=True
+started=Energy collecting=True colliderOff=True
+started=Bio collecting=True colliderOff=True
+started=Bio collecting=True colliderOff=True
+started=Tech collecting=True colliderOff=True
+started=Energy collecting=True colliderOff=True
+duplicateRejected=True
+countDeferred=True
+lastCompletionDeferred=True
+final=12/12 complete=True
+remaining=0
+postCompleteRejected=True

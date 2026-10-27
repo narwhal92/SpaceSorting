@@ -1,0 +1,3 @@
+opaqueFloorTrianglesAtOpening=0
+continuousFloorCollider=True
+staticStars=11

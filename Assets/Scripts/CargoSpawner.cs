@@ -31,6 +31,7 @@ public class CargoSpawner : MonoBehaviour
         float margin = edgeMargin * box.Scale;
         float minDist = minDistance * box.Scale;
         List<Vector3> placed = new List<Vector3>();
+        List<CargoCollector> spawned = new List<CargoCollector>();
 
         for (int i = 0; i < cargoCount; i++)
         {
@@ -41,13 +42,38 @@ public class CargoSpawner : MonoBehaviour
             for (int attempt = 0; attempt < 30; attempt++)
             {
                 position = box.RandomPoint(margin, cargoY);
-                if (IsFarEnough(position, placed, minDist))
+                if (IsFarEnough(position, placed, minDist) && IsOutsideContainers(position, box))
                     break;
             }
 
+            if (!IsFarEnough(position, placed, minDist) || !IsOutsideContainers(position, box)) continue;
             placed.Add(position);
-            Instantiate(prefab, position, Random.rotation);
+            if (prefab == null) continue;
+            GameObject instance = Instantiate(prefab, position, Random.rotation);
+            CargoCollector collector = instance.GetComponent<CargoCollector>();
+            if (collector != null) spawned.Add(collector);
         }
+
+        LevelManager.Instance.PrepareLevel(spawned);
+    }
+
+    private bool IsOutsideContainers(Vector3 position, AdaptiveBox box)
+    {
+        // Exclude the same X/Z footprint used by release, regardless of hover height.
+        float clearance = Mathf.Max(1f, edgeMargin) * box.Scale;
+        foreach (Transform container in box.containers)
+        {
+            if (container == null) continue;
+            Collider intake = container.GetComponent<Collider>();
+            if (intake != null)
+            {
+                Vector3 footprintPoint = position;
+                footprintPoint.y = intake.bounds.center.y;
+                if ((intake.ClosestPoint(footprintPoint) - footprintPoint).sqrMagnitude < clearance * clearance)
+                    return false;
+            }
+        }
+        return true;
     }
 
     private bool IsFarEnough(Vector3 p, List<Vector3> others, float minDist)

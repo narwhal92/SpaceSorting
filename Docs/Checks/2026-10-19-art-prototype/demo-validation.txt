@@ -1,0 +1,5 @@
+noShrinkOutside=True
+noEarlyClose=True
+overlapSeen=False
+selectedAllRemoved=True
+progress=1/12

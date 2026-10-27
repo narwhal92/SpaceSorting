@@ -1,0 +1,26 @@
+[
+  {
+    "mode": "original_full_medium_8samples_high_blur",
+    "samples": 90,
+    "cpuMedianMs": 0.1432,
+    "gpuMedianMs": 0.62464,
+    "gpuNonzeroSamples": 90,
+    "lastGpuScopeCount": 10
+  },
+  {
+    "mode": "off",
+    "samples": 90,
+    "cpuMedianMs": 0.0,
+    "gpuMedianMs": 0.0,
+    "gpuNonzeroSamples": 0,
+    "lastGpuScopeCount": 0
+  },
+  {
+    "mode": "half_low_4samples_medium_blur",
+    "samples": 90,
+    "cpuMedianMs": 0.1122,
+    "gpuMedianMs": 0.16384,
+    "gpuNonzeroSamples": 90,
+    "lastGpuScopeCount": 8
+  }
+]
